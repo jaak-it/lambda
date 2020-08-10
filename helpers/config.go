@@ -17,4 +17,6 @@ func LoadConfig(filePath string, dec interface{}) error {
     if err != nil {
         return err
     }
+
+    return nil
 }
