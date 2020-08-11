@@ -1,7 +1,6 @@
 package dynamo
 
 import (
-    "errors"
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/service/dynamodb"
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
@@ -48,7 +47,7 @@ func (cd *SessionDynamo) DeleteItem(id string, tableName string) error {
     return nil
 }
 
-func (cd *SessionDynamo) GetItem(id string, tableName string) (map[string]*dynamodb.AttributeValue, error) {
+func (cd *SessionDynamo) GetItem(id string, tableName string) (*dynamodb.GetItemOutput, error) {
     query := dynamodb.GetItemInput{
         TableName: aws.String(tableName),
         Key: map[string]*dynamodb.AttributeValue{
@@ -63,10 +62,10 @@ func (cd *SessionDynamo) GetItem(id string, tableName string) (map[string]*dynam
         return nil, err
     }
 
-    if result.Item == nil {
-        msg := "Could not find '" + id + "'"
-        return nil, errors.New(msg)
-    }
+    //if result.Item == nil {
+    //    msg := "Could not find '" + id + "'"
+    //    return nil, errors.New(msg)
+    //}
 
-    return result.Item, nil
+    return result, nil
 }
