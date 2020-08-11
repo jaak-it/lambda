@@ -27,11 +27,13 @@ func NewSessionDynamo(region string) (*SessionDynamo, error) {
         return nil, erro
     }
 
-    instance := dynamodb.New(awsSession)
+    dynamo := dynamodb.New(awsSession)
 
-    logrus.Info("New sessionDynamo to dynamo created")
-    return &SessionDynamo{
-        instance: instance,
-    }, nil
+    sessionDynamo = &SessionDynamo{
+        instance: dynamo,
+    }
+
+    logrus.Print("Create connection to dynamo database")
+    return sessionDynamo, nil
 }
 
