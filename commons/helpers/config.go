@@ -5,7 +5,7 @@ import (
     "os"
 )
 
-func LoadConfig(filePath string, dec interface{}) error {
+func LoadFileConfig(filePath string, dec interface{}) error {
     file, err := os.Open(filePath)
     if err != nil {
         return err

@@ -1,36 +1,37 @@
 package repository
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/sirupsen/logrus"
-	"os"
-	"sync"
+    "errors"
+    "github.com/aws/aws-sdk-go/aws"
+    "github.com/aws/aws-sdk-go/aws/session"
+    "github.com/aws/aws-sdk-go/service/dynamodb"
+    "github.com/sirupsen/logrus"
 )
 
-var singleton *dynamodb.DynamoDB
+var dynamoDB *dynamodb.DynamoDB
 var err error
-var once sync.Once
 
-func GetDynamo() (*dynamodb.DynamoDB, error) {
-	once.Do(func() {
-		region := os.Getenv("AWS_REGION")
+func GetSessionDynamo() (*dynamodb.DynamoDB, error) {
+    if dynamoDB == nil {
+        return nil, errors.New("Session to dynamo is empty")
+    }
 
-		awsSession, er := session.NewSession(&aws.Config{
-			Region: aws.String(region),
-		})
+    return dynamoDB, err
+}
 
-		if er != nil {
-			err = er
-			return
-		}
+func CreateSessionDynamo(region string) (*dynamodb.DynamoDB, error) {
+    awsSession, er := session.NewSession(&aws.Config{
+        Region: aws.String(region),
+    })
 
-		singleton = dynamodb.New(awsSession)
-		logrus.Info("Created instance to dynamo")
+    if er != nil {
+        return nil, er
+    }
 
-	})
-	return singleton, err
+    dynamoDB = dynamodb.New(awsSession)
+    logrus.Info("New session to dynamo created")
+
+    return dynamoDB, nil
 }
 
 /*func AddItem() (*dynamodb.DynamoDB, error) {

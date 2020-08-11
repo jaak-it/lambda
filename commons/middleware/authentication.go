@@ -1,9 +1,9 @@
 package middleware
 
 import (
-    "github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go"
     "github.com/gin-gonic/gin"
-    "github.com/jaak-it/lambda/commons/models"
+	"github.com/jaak-it/lambda/commons/models"
     "github.com/sirupsen/logrus"
     "net/http"
     "strings"

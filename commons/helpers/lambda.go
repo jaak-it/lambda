@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"context"
+    "context"
 	"github.com/aws/aws-lambda-go/events"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-contrib/cors"
@@ -19,11 +19,12 @@ func (lambda *Lambda) HandlerLambda(ctx context.Context, req events.APIGatewayPr
 	return ginLambda.ProxyWithContext(ctx, req)
 }
 
-func (lambda *Lambda) Run() {
+func (lambda *Lambda) Run() error {
 	err := lambda.Engine.Run()
 	if err != nil {
-		logrus.Fatal(err)
+		return err
 	}
+	return nil
 }
 
 func NewLambda() *Lambda {

@@ -5,11 +5,11 @@ type Response struct {
 }
 
 type ResponseError struct {
-	Response
+    Response
 	Error interface{} `json:"error"`
 }
 
 type ResponseSuccess struct {
-	Response
+    Response
 	Payload interface{} `json:"payload"`
 }
