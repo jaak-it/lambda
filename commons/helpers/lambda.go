@@ -2,10 +2,10 @@ package helpers
 
 import (
     "context"
-	"github.com/aws/aws-lambda-go/events"
-	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
+    "github.com/aws/aws-lambda-go/events"
+    ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
+    "github.com/gin-contrib/cors"
+    "github.com/gin-gonic/gin"
     "github.com/jaak-it/lambda/commons/middleware"
     "github.com/sirupsen/logrus"
 )
@@ -46,8 +46,8 @@ func createServerGin() *gin.Engine {
 
 	r := gin.New()
 
-	r.Use(gin.Recovery())
 	r.Use(cors.Default())
+	r.Use(gin.Recovery())
 	r.Use(middleware.LoggerMiddleware(logger))
 	r.Use(middleware.AuthMiddleware())
 

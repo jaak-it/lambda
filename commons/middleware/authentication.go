@@ -11,7 +11,7 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		clientToken := c.GetHeader("Authorization")
+		clientToken := c.GetHeader("Token")
 		if clientToken == "" {
 			logrus.Errorf("Authorization token was not provided")
 			c.JSON(
