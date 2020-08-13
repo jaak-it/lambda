@@ -1,7 +1,12 @@
 package helpers
 
 import (
+    "github.com/google/uuid"
+    "log"
     "os"
+    "strconv"
+    "strings"
+    "time"
 )
 
 func IsProduction() bool {
@@ -13,12 +18,11 @@ func IsProduction() bool {
     return isProduction
 }
 
-//func CreatePrefixUUID(nameTable string) string {
-//    now := time.Now()
-//    newRandom, err := uuid.NewRandom()
-//    if err != nil {
-//        log.Fatal(err)
-//        return ""
-//    }
-//    return nameTable + "." + strings.Replace(newRandom.String(), "-", "", -1) + strconv.Itoa(now.Nanosecond())
-//}
+func CreatePrefixUUID(nameTable string) string {
+   now := time.Now()
+   newRandom, err := uuid.NewRandom()
+   if err != nil {
+       log.Fatal(err)
+   }
+   return nameTable + "." + strings.Replace(newRandom.String(), "-", "", -1) + strconv.Itoa(now.Nanosecond())
+}
