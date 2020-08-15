@@ -69,3 +69,26 @@ func (cd *SessionDynamo) GetItem(id string, tableName string) (*dynamodb.GetItem
 
     return result, nil
 }
+
+func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.GetItemOutput, error) {
+    query := dynamodb.GetItemInput{
+        TableName: aws.String(tableName),
+        Key: map[string]*dynamodb.AttributeValue{
+            "userId": {
+                S: aws.String(userId),
+            },
+        },
+    }
+
+    result, err := cd.instance.GetItem(&query)
+    if err != nil {
+        return nil, err
+    }
+
+    //if result.Item == nil {
+    //    msg := "Could not find '" + id + "'"
+    //    return nil, errors.New(msg)
+    //}
+
+    return result, nil
+}
