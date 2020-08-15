@@ -76,6 +76,8 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
         ProjectionExpression: aws.String("userId"),
     }
 
+
+
     result, err := cd.instance.Scan(&query)
     if err != nil {
         return nil, err
