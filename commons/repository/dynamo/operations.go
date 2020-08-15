@@ -70,17 +70,13 @@ func (cd *SessionDynamo) GetItem(id string, tableName string) (*dynamodb.GetItem
     return result, nil
 }
 
-func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.GetItemOutput, error) {
-    query := dynamodb.GetItemInput{
-        TableName: aws.String(tableName),
-        Key: map[string]*dynamodb.AttributeValue{
-            "userId": {
-                S: aws.String(userId),
-            },
-        },
+func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.ScanOutput, error) {
+    query := dynamodb.ScanInput{
+        TableName:            aws.String(tableName),
+        ProjectionExpression: aws.String("userId"),
     }
 
-    result, err := cd.instance.GetItem(&query)
+    result, err := cd.instance.Scan(&query)
     if err != nil {
         return nil, err
     }
@@ -88,5 +84,3 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
     return result, nil
 
 }
-
-
