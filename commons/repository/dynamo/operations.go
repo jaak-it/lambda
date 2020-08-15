@@ -91,4 +91,5 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
     //}
 
     return result, nil
+
 }
