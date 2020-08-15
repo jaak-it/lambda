@@ -85,11 +85,8 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
         return nil, err
     }
 
-    //if result.Item == nil {
-    //    msg := "Could not find '" + id + "'"
-    //    return nil, errors.New(msg)
-    //}
-
     return result, nil
 
 }
+
+
