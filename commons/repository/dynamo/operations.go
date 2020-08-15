@@ -73,7 +73,12 @@ func (cd *SessionDynamo) GetItem(id string, tableName string) (*dynamodb.GetItem
 func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.ScanOutput, error) {
     query := dynamodb.ScanInput{
         TableName:            aws.String(tableName),
-        ProjectionExpression: aws.String("userId"),
+        ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+            ":a": {
+                S: aws.String(userId),
+            },
+        },
+        FilterExpression: aws.String("userId = :a"),
     }
     result, err := cd.instance.Scan(&query)
     if err != nil {
