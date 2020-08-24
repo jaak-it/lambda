@@ -6,7 +6,6 @@ import (
     "github.com/aws/aws-sdk-go/service/dynamodb"
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
     "github.com/aws/aws-sdk-go/service/dynamodb/expression"
-    "os"
 )
 
 type SessionDynamo struct {
@@ -81,7 +80,35 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
     if err != nil {
         fmt.Println("Got error building expression:")
         fmt.Println(err.Error())
-        os.Exit(1)
+        //os.Exit(1)
+    }
+
+    query := &dynamodb.ScanInput{
+        ExpressionAttributeNames:  expr.Names(),
+        ExpressionAttributeValues: expr.Values(),
+        //FilterExpression:          expr.Filter(),
+        ProjectionExpression: expr.Projection(),
+        TableName:            aws.String(tableName),
+    }
+
+    result, err := cd.instance.Scan(query)
+    if err != nil {
+        fmt.Println("Query API call failed:")
+        fmt.Println(err.Error())
+        //os.Exit(1)
+    }
+
+    return result, err
+}
+
+func (cd *SessionDynamo) FindUserList(item interface{}, tableName string) (*dynamodb.ScanOutput, error) {
+    proj := expression.NamesList(expression.Name("firstname"), expression.Name("lastname"),
+        expression.Name("isActive"))
+
+    expr, err := expression.NewBuilder().WithProjection(proj).Build()
+    if err != nil {
+        fmt.Println("Got error building expression:")
+        fmt.Println(err.Error())
     }
 
     query := &dynamodb.ScanInput{
@@ -93,16 +120,13 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
     }
 
     result, err := cd.instance.Scan(query)
-
     if err != nil {
         fmt.Println("Query API call failed:")
-        fmt.Println((err.Error()))
-        os.Exit(1)
+        fmt.Println(err.Error())
     }
 
     return result, err
 }
-
 
 /*func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.ScanOutput, error) {
     query := dynamodb.ScanInput{
