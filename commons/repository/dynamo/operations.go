@@ -86,7 +86,7 @@ func (cd *SessionDynamo) FindUserId(userId string, tableName string) (*dynamodb.
     query := &dynamodb.ScanInput{
         ExpressionAttributeNames:  expr.Names(),
         ExpressionAttributeValues: expr.Values(),
-        //FilterExpression:          expr.Filter(),
+        FilterExpression:          expr.Filter(),
         ProjectionExpression: expr.Projection(),
         TableName:            aws.String(tableName),
     }
